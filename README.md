@@ -34,15 +34,6 @@ Reset Logic: Once the blob collects 3 items, the items reset to their original p
 
 Score Counter: A total score tracks how many items have been stolen across all resets.
 
-Technical Features
-AABB Collision: Uses Axis-Aligned Bounding Box logic to resolve platform collisions.
-
-Boundary Constraints: The blob is constrained to the canvas width to prevent falling out of bounds.
-
-Dynamic Array Management: Items are managed in an array and reset using a spawnItems() function when the collection limit is reached.
-
-State Management: Uses currentHeld and totalScore variables to track game progress.
-
 Controls
 A / Left Arrow: Move Left
 
