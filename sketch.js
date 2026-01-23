@@ -1,7 +1,7 @@
 let floorY3;
 let items = [];
-let totalScore = 0; // Total career score
-let currentHeld = 0; // Current stack count
+let totalScore = 0;
+let currentHeld = 0;
 
 let blob3 = {
   x: 80,
@@ -29,24 +29,25 @@ function setup() {
   createCanvas(640, 360);
   floorY3 = height - 36;
 
+  // 4 FLOATING PLATFORMS + 1 FLOOR
   platforms = [
-    { x: 0, y: floorY3, w: width, h: height - floorY3 },
-    { x: 120, y: floorY3 - 70, w: 120, h: 12 },
-    { x: 300, y: floorY3 - 120, w: 90, h: 12 },
-    { x: 440, y: floorY3 - 180, w: 130, h: 12 },
+    { x: 0, y: floorY3, w: width, h: height - floorY3 }, // Floor
+    { x: 50, y: floorY3 - 60, w: 110, h: 12 }, // Plat 1
+    { x: 210, y: floorY3 - 130, w: 100, h: 12 }, // Plat 2
+    { x: 380, y: floorY3 - 200, w: 110, h: 12 }, // Plat 3
+    { x: 510, y: floorY3 - 100, w: 90, h: 12 }, // Plat 4
   ];
 
-  // Initial Item positions
   spawnItems();
-
   blob3.y = floorY3 - blob3.r - 1;
 }
 
 function spawnItems() {
+  // Spreading 3 items across the 4 platforms
   items = [
-    { x: 150, y: floorY3 - 90, w: 15, h: 15, stolen: false, stackPos: 0 },
-    { x: 320, y: floorY3 - 140, w: 15, h: 15, stolen: false, stackPos: 0 },
-    { x: 500, y: floorY3 - 200, w: 15, h: 15, stolen: false, stackPos: 0 },
+    { x: 90, y: floorY3 - 85, w: 15, h: 15, stolen: false, stackPos: 0 },
+    { x: 250, y: floorY3 - 155, w: 15, h: 15, stolen: false, stackPos: 0 },
+    { x: 420, y: floorY3 - 225, w: 15, h: 15, stolen: false, stackPos: 0 },
   ];
 }
 
@@ -57,21 +58,10 @@ function draw() {
   fill(100);
   for (const p of platforms) rect(p.x, p.y, p.w, p.h);
 
-  // --- Logic for Items ---
-  for (let item of items) {
-    fill(255, 204, 0);
-    if (item.stolen) {
-      // Stack items on the blob
-      item.x = blob3.x - 7;
-      item.y = blob3.y - (blob3.r + 10 + item.stackPos * 12);
-    }
-    rect(item.x, item.y, item.w, item.h);
-  }
-
-  // --- RESET LOGIC ---
+  // --- Reset Logic ---
   if (currentHeld >= 3) {
     currentHeld = 0;
-    spawnItems(); // Put items back in original spots
+    spawnItems();
   }
 
   // --- Movement & Input ---
@@ -84,13 +74,16 @@ function draw() {
   blob3.vx = constrain(blob3.vx, -blob3.maxRun, blob3.maxRun);
   blob3.vy += blob3.gravity;
 
-  // --- Collision ---
+  // --- Anti-Sticking Collision Logic ---
+  // Create a collision box slightly smaller than the visual radius to prevent "snagging"
   let box = {
-    x: blob3.x - blob3.r,
-    y: blob3.y - blob3.r,
-    w: blob3.r * 2,
-    h: blob3.r * 2,
+    x: blob3.x - blob3.r + 2,
+    y: blob3.y - blob3.r + 2,
+    w: blob3.r * 2 - 4,
+    h: blob3.r * 2 - 4,
   };
+
+  // 1. Resolve Horizontal (X)
   box.x += blob3.vx;
   for (const s of platforms) {
     if (overlap(box, s)) {
@@ -99,6 +92,9 @@ function draw() {
       blob3.vx = 0;
     }
   }
+  blob3.x = box.x + box.w / 2; // Sync blob x
+
+  // 2. Resolve Vertical (Y)
   box.y += blob3.vy;
   blob3.onGround = false;
   for (const s of platforms) {
@@ -113,22 +109,29 @@ function draw() {
       }
     }
   }
+  blob3.y = box.y + box.h / 2; // Sync blob y
 
-  blob3.x = box.x + box.w / 2;
-  blob3.y = box.y + box.h / 2;
+  // Screen Boundaries
   blob3.x = constrain(blob3.x, blob3.r, width - blob3.r);
 
-  // --- Mischief: Steal Logic ---
+  // --- Mischief Logic ---
   for (let item of items) {
-    if (!item.stolen && overlap(box, item)) {
-      item.stolen = true;
-      item.stackPos = currentHeld; // Set where in the stack it sits
-      currentHeld += 1;
-      totalScore += 1;
+    fill(255, 204, 0);
+    if (item.stolen) {
+      item.x = blob3.x - 7;
+      item.y = blob3.y - (blob3.r + 10 + item.stackPos * 12);
+    } else {
+      if (overlap(box, item)) {
+        item.stolen = true;
+        item.stackPos = currentHeld;
+        currentHeld += 1;
+        totalScore += 1;
+      }
     }
+    rect(item.x, item.y, item.w, item.h);
   }
 
-  // --- Draw Visuals ---
+  // --- Draw Blob ---
   blob3.t += blob3.tSpeed;
   drawBlobCircle(blob3);
 
