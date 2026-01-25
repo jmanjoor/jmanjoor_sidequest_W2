@@ -1,16 +1,15 @@
-GBDA302 Week 2: Panic & Mischief Redesign
-Student Information
-Name: Jowan Manjooran Jomon
+GBDA302 Week 2: Panic & Mischief Redesign <br>
+Student Information<br>
+Name: Jowan Manjooran Jomon<br>
 
-Student ID: 21105035
+Student ID: 21105035<br>
+Email: jmanjoor@uwaterloo.ca<br>
 
-Email: jmanjoor@uwaterloo.ca
+Project Title<br>
+GBDA302 Week 2: Emotional Expression & Mischief Mechanic<br>
 
-Project Title
-GBDA302 Week 2: Emotional Expression & Mischief Mechanic
-
-Description
-This project is a redesign of the standard AABB platformer example. The goal was to transform the blob’s movement and the environment to express the emotion of Panic, while implementing a Mischief mechanic where the blob steals and stacks objects.
+Description<br>
+This project is a redesign of the standard AABB platformer example. The goal was to transform the blob’s movement and the environment to express the emotion of Panic, while implementing a Mischief mechanic where the blob steals and stacks objects.<br>
 
 1. Emotional Expression: Panic
 
@@ -42,4 +41,4 @@ D / Right Arrow: Move Right
 W / Space / Up Arrow: Jump
 
 GenAI Attribution
-The original platforming base code was provided by Dr. Karen Cochrane and David Han. The redesign logic, including the panic-based physics tuning, the item stacking coordinate math, and the reset logic, was developed with assistance from Gemini (GenAI) to ensure efficient implementation of the mischief mechanics and boundary bug fixes.
+The original platforming base code was provided by Dr. Karen Cochrane and David Han. The redesign logic, including the panic-based physics tuning, the item stacking coordinate math, and the reset logic, was developed with assistance from ChatGPT and Gemini to ensure efficient implementation of the mischief mechanics and boundary bug fixes.
