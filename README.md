@@ -7,7 +7,7 @@ Student ID: 21105035
 Email: jmanjoor@uwaterloo.ca
 
 Project Title
-GBDA302 Week 2: Emotional Expression & Mischief Mechanic (Panic)
+GBDA302 Week 2: Emotional Expression & Mischief Mechanic
 
 Description
 This project is a redesign of the standard AABB platformer example. The goal was to transform the blob’s movement and the environment to express the emotion of Panic, while implementing a Mischief mechanic where the blob steals and stacks objects.
